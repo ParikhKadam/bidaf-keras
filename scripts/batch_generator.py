@@ -10,7 +10,8 @@ class BatchGenerator(Sequence):
 
     def __init__(self, gen_type, batch_size=32):
         'Initialization'
-        base_dir = os.path.join('..', 'data')
+        base_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
+
         self.context_file = os.path.join(base_dir, 'squad', gen_type + '.context')
         self.question_file = os.path.join(base_dir, 'squad', gen_type + '.question')
         self.span_file = os.path.join(base_dir, 'squad', gen_type + '.span')
@@ -36,7 +37,7 @@ class BatchGenerator(Sequence):
         end_index = (index + 1) * self.batch_size
 
         contexts = []
-        with open(self.context_file) as cf:
+        with open(self.context_file, 'r', encoding='utf-8') as cf:
             for i, line in enumerate(cf):
                 if i >= start_index:
                     contexts.append(text_to_word_sequence(
@@ -45,7 +46,7 @@ class BatchGenerator(Sequence):
                     break
 
         questions = []
-        with open(self.question_file) as qf:
+        with open(self.question_file, 'r', encoding='utf-8') as qf:
             for i, line in enumerate(qf):
                 if i >= start_index:
                     questions.append(text_to_word_sequence(
@@ -54,7 +55,7 @@ class BatchGenerator(Sequence):
                     break
 
         answer_spans = []
-        with open(self.span_file) as sf:
+        with open(self.span_file, 'r', encoding='utf-8') as sf:
             for i, line in enumerate(sf):
                 if i >= start_index:
                     answer_spans.append(text_to_word_sequence(
@@ -64,6 +65,6 @@ class BatchGenerator(Sequence):
 
         context_batch = self.vectors.query(contexts)
         question_batch = self.vectors.query(questions)
-        span_batch = np.array(answer_spans)
+        span_batch = np.expand_dims(np.array(answer_spans), axis=0)
 
         return [context_batch, question_batch], span_batch

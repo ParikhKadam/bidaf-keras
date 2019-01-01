@@ -14,9 +14,10 @@ class SpanEnd(Layer):
 
     def call(self, inputs):
         encoded_passage, merged_context, modeled_passage, span_begin_probabilities = inputs
-        passage_weighted_by_predicted_span = K.tile(
-            K.sum(K.expand_dims(span_begin_probabilities, axis=-1) * modeled_passage, -2),
-            [1, K.shape(encoded_passage)[1], 1])
+        weighted_sum = K.sum(K.expand_dims(span_begin_probabilities, axis=-1) * modeled_passage, -2)
+        passage_weighted_by_predicted_span = K.expand_dims(weighted_sum, axis=1)
+        tile_shape = K.concatenate([[1], [K.shape(encoded_passage)[1]], [1]], axis=0)
+        passage_weighted_by_predicted_span = K.tile(passage_weighted_by_predicted_span, tile_shape)
         multiply1 = modeled_passage * passage_weighted_by_predicted_span
         span_end_representation = K.concatenate(
             [merged_context, modeled_passage, passage_weighted_by_predicted_span, multiply1])
@@ -24,7 +25,7 @@ class SpanEnd(Layer):
         span_end_representation = Bidirectional(LSTM(emdim, return_sequences=True))(span_end_representation)
         span_end_input = K.concatenate([merged_context, span_end_representation])
         span_end_weights = TimeDistributed(Dense(units=1))(span_end_input)
-        span_end_probabilities = Softmax()(span_end_weights)
+        span_end_probabilities = K.squeeze(Softmax()(span_end_weights), axis=-1)
         return span_end_probabilities
 
     def compute_output_shape(self, input_shape):
