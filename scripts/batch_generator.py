@@ -34,7 +34,7 @@ class BatchGenerator(Sequence):
 
     def __len__(self):
         'Denotes the number of batches per epoch'
-        print('----------------------------no of batches', self.num_of_batches)
+#         print('----------------------------no of batches', self.num_of_batches)
         return self.num_of_batches
 
     def __getitem__(self, index):
