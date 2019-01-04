@@ -12,8 +12,8 @@ class CombineOutputs(Layer):
 
     def call(self, inputs):
         span_begin_probabilities, span_end_probabilities = inputs
-        return K.stack([span_begin_probabilities, span_end_probabilities])
+        return K.stack([span_begin_probabilities, span_end_probabilities],axis = 1)
 
     def compute_output_shape(self, input_shape):
         number_of_tensors = len(input_shape)
-        return (number_of_tensors, ) + input_shape[0]
+        return input_shape[0][0:1] + (number_of_tensors, ) + input_shape[0][1:]

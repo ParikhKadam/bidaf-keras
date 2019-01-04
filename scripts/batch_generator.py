@@ -22,7 +22,7 @@ class BatchGenerator(Sequence):
             for i, _ in enumerate(f):
                 pass
         self.num_of_batches = (i + 1) // self.batch_size
-        glove = Magnitude(MagnitudeUtils.download_model('glove/medium/glove.6B.300d',
+        glove = Magnitude(MagnitudeUtils.download_model('glove/medium/glove.6B.100d',
                                                         download_dir=os.path.join(base_dir, 'magnitude')), case_insensitive=True)
         fasttext = Magnitude(MagnitudeUtils.download_model('fasttext/medium/wiki-news-300d-1M-subword',
                                                            download_dir=os.path.join(base_dir, 'magnitude')), case_insensitive=True)
@@ -34,7 +34,7 @@ class BatchGenerator(Sequence):
 
     def __len__(self):
         'Denotes the number of batches per epoch'
-#         print('----------------------------no of batches', self.num_of_batches)
+        print('----------------------------no of batches', self.num_of_batches)
         return self.num_of_batches
 
     def __getitem__(self, index):
@@ -85,10 +85,11 @@ class BatchGenerator(Sequence):
 
         question_batch = self.vectors.query(questions)
 
-#         print('----------------------------query_batch', question_batch)
+#        print('----------------------------query_batch', question_batch.shape)
 
-        span_batch = np.expand_dims(np.array(answer_spans, dtype='int32'), axis=0)
+        span_batch = np.expand_dims(np.array(answer_spans, dtype='int32'), axis=1)
 
-#         print('----------------------------span_batch', span_batch)
+        # print('----------------------------span_batch', span_batch.shape)
 
+        # print(self.span_file, '--------------', index)
         return [context_batch, question_batch], span_batch
