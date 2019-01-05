@@ -25,9 +25,9 @@ Thoughts, samples codes, modifications and any other type of contributions are a
   2. https://github.com/keras-team/keras/issues/11978
 
 ## My team
-- [Dharanee Patel]() (https://github.com/dharaneepatel15/)
+- [Dharanee Patel](https://github.com/dharaneepatel15/)
 - [Zeel Patel](https://github.com/zeelp898/)
 
 ## Special Thanks to the researchers of BiDAF
-- Sir, Minjoon Seo (@seominjoon) for helping me out personally
+- Sir, [Minjoon Seo](https://github.com/seominjoon/) for helping me out personally
 - The team of allenai (http://www.allenai.org/)
