@@ -11,7 +11,7 @@ def negative_avg_log_error(y_true, y_pred):
         return K.log(start_probability) + K.log(end_probability)
 
     y_true = K.squeeze(y_true, axis=1)
-    y_pred_start = y_pred[:,0,:]
-    y_pred_end = y_pred[:,1,:]
+    y_pred_start = y_pred[:, 0, :]
+    y_pred_end = y_pred[:, 1, :]
     batch_probability_sum = K.map_fn(sum_of_log_probabilities, (y_true, y_pred_start, y_pred_end), dtype='float32')
     return -K.mean(batch_probability_sum, axis=0)
