@@ -1,4 +1,5 @@
 from keras.engine.topology import Layer
+from keras.constraints import MinMaxNorm
 from keras.activations import linear
 from keras import backend as K
 
