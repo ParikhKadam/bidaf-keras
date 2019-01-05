@@ -10,6 +10,7 @@ Thoughts, samples codes, modifications and any other type of contributions are a
 
 ## Issues
 - Open:
-  1. https://github.com/keras-team/keras/issues/11978
+  1. ...
 - Closed:
   1. https://github.com/tensorflow/tensorflow/issues/24519
+  2. https://github.com/keras-team/keras/issues/11978
