@@ -1,5 +1,5 @@
 # bidaf-keras
-Implementation of [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603) implemented in Keras 2
+Implementation of [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603) in Keras 2
 
 ## Release-info
 This project will soon be available for use by just running a pyhton file (graph.py as of now). A pretrained model will be made available soon. My teammate is working on building this model in tensorflow and it will also be available soon.
