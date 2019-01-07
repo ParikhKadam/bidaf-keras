@@ -16,8 +16,6 @@ class Q2CAttention(Layer):
         max_similarity = K.max(similarity_matrix, axis=-1)
         # by default, axis = -1 in Softmax
         context_to_query_attention = Softmax()(max_similarity)
-        print(K.int_shape(context_to_query_attention))
-        print(K.int_shape(encoded_context))
         weighted_sum = K.sum(K.expand_dims(context_to_query_attention, axis=-1) * encoded_context, -2)
         expanded_weighted_sum = K.expand_dims(weighted_sum, 1)
         num_of_repeatations = K.shape(encoded_context)[1]
