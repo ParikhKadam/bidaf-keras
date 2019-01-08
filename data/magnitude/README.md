@@ -1,1 +1,0 @@
-## Magnitude by Plasticity
