@@ -16,7 +16,9 @@ A pretrained model will be made available soon. My teammate is working on buildi
 
 ## To-do list
 - Make this project as a portable module and publish it on pypi
-- Generate requirements.txt
+- Support to use module using commandline arguments
+- Spearate the code of generators from model
+- Separate the code of loading magnitude files from that of squad data generators
 
 I don't know which things should I keep in mind to do this (such as if a directory doesn't exists at runtime, the model should create it dynamically instead of throwing an error). If you have such points that I should keep in mind, consider contributing to this project. Also, if you have time to implement it in this project, submit your work with a pull request on a new branch.
 
