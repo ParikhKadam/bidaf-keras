@@ -2,7 +2,12 @@
 Implementation of [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603) in Keras 2
 
 ## Release-info
-This project is available for use by just running a pyhton file 'run.py'. You can append your code in the run.py file according to your needs. A pretrained model will be made available soon. My teammate is working on building this model in tensorflow and it will also be available soon.
+This project is available for use as a complete module. Just install the requirements (will update with only the necessary ones) and then run the module named 'bidaf' using the command:
+`python -m bidaf`
+
+You can append your code in the \__main__.py file according to your needs. We are working on updating this as a perfect module which you can use via commandline arguments.
+
+A pretrained model will be made available soon. My teammate is working on building this model in tensorflow and it will also be available soon.
 
 ## What you can do with this project:
 - Train/Retrain this model with your own dataset.
