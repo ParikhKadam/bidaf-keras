@@ -41,7 +41,7 @@ ptyprocess==0.6.0
 Pygments==2.3.1
 pymagnitude==0.1.120
 python-dateutil==2.7.5
-PyYAML==3.13
+PyYAML==4.2b1
 pyzmq==17.1.2
 scipy==1.2.0
 Send2Trash==1.5.0
