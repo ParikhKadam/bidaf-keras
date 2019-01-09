@@ -1,22 +1,22 @@
 from keras.utils import Sequence
 import os
-from pymagnitude import Magnitude, MagnitudeUtils
 import numpy as np
+from .magnitude import MagnitudeVectors
 
 
 class BatchGenerator(Sequence):
     'Generates data for Keras'
 
+    vectors = None
+
     def __init__(self, gen_type, batch_size=32, emdim=600):
         'Initialization'
 
-        self.fasttext_dim = 300
-        self.glove_dim = emdim - 300
-
-        assert self.glove_dim in [50, 100, 200,
-                                  300], "Embedding dimension must be one of the following: 350, 400, 500, 600"
-
         base_dir = os.path.join(os.path.dirname(__file__), os.pardir, 'data')
+
+        self.vectors = MagnitudeVectors(base_dir, emdim).load_vectors()
+
+        BatchGenerator.load_magnitude_data(base_dir, emdim)
 
         self.context_file = os.path.join(base_dir, 'squad', gen_type + '.context')
         self.question_file = os.path.join(base_dir, 'squad', gen_type + '.question')
@@ -28,13 +28,6 @@ class BatchGenerator(Sequence):
             for i, _ in enumerate(f):
                 pass
         self.num_of_batches = (i + 1) // self.batch_size
-
-        print("Will download magnitude files from the server if they aren't avaialble locally.. So, wait for a while. The downloading might be under progress..")
-        glove = Magnitude(MagnitudeUtils.download_model('glove/medium/glove.6B.{}d'.format(self.glove_dim),
-                                                        download_dir=os.path.join(base_dir, 'magnitude')), case_insensitive=True)
-        fasttext = Magnitude(MagnitudeUtils.download_model('fasttext/medium/wiki-news-300d-1M-subword',
-                                                           download_dir=os.path.join(base_dir, 'magnitude')), case_insensitive=True)
-        self.vectors = Magnitude(glove, fasttext)
 
     def __len__(self):
         'Denotes the number of batches per epoch'

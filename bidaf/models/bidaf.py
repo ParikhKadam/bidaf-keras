@@ -1,8 +1,10 @@
 from keras.layers import Input, TimeDistributed, LSTM, Bidirectional
 from keras.models import Model
+from keras.optimizers import Adadelta
 from keras.callbacks import CSVLogger, ModelCheckpoint
+from keras.utlis import multi_gpu_model
 from ..layers import Highway, Similarity, C2QAttention, Q2CAttention, MergedContext, SpanBegin, SpanEnd, CombineOutputs
-from ..scripts import negative_avg_log_error, BatchGenerator
+from ..scripts import negative_avg_log_error
 import os
 
 
@@ -50,15 +52,17 @@ class BidirectionalAttentionFlow():
 
         model.summary()
 
-        model.compile(loss=negative_avg_log_error, optimizer='adadelta', metrics=[])
+        try:
+            model = multi_gpu_model(model)
+        except:
+            pass
+
+        adadelta = Adadelta(lr=0.5)
+        model.compile(loss=negative_avg_log_error, optimizer=adadelta, metrics=[])
 
         self.model = model
 
-    def load_data_generators(self, batch_size=32):
-        self.train_generator = BatchGenerator('train', batch_size)
-        self.validate_generator = BatchGenerator('dev', batch_size)
-
-    def train_model(self, epochs=1, steps_per_epoch=None, validation_steps=None, save_history=False, save_model_per_epoch=False):
+    def train_model(self, train_generator, steps_per_epoch=None, epochs=1, validation_generator=None, validation_steps=None, workers=1, use_multiprocessing=False, shuffle=True, initial_epoch=0, save_history=False, save_model_per_epoch=False):
 
         saved_items_dir = os.path.join(os.path.dirname(__file__), os.pardir, 'saved_items')
         if not os.path.exists(saved_items_dir):
@@ -76,8 +80,8 @@ class BidirectionalAttentionFlow():
             checkpointer = ModelCheckpoint(filepath=save_model_file, verbose=1)
             callbacks.append(checkpointer)
 
-        history = self.model.fit_generator(self.train_generator, steps_per_epoch=steps_per_epoch, epochs=1, callbacks=callbacks,
-                                           validation_data=self.validate_generator, validation_steps=validation_steps, shuffle=False)
+        history = self.model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch, epochs=epochs, callbacks=callbacks, validation_data=validation_generator,
+                                           validation_steps=validation_steps, workers=workers, use_multiprocessing=use_multiprocessing, shuffle=shuffle, initial_epoch=initial_epoch)
 
         if not save_model_per_epoch:
             self.model.save(os.path.join(saved_items_dir, 'bidaf.h5'))
