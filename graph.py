@@ -1,8 +1,12 @@
 from keras.layers import Input, TimeDistributed, LSTM, Bidirectional, Lambda
 from keras.models import Model
+from keras.optimizers import Adadelta
+from keras.callbacks import CSVLogger, ModelCheckpoint
+from keras.utils import multi_gpu_model
 from layers import Highway, Similarity, C2QAttention, Q2CAttention, MergedContext, SpanBegin, SpanEnd, CombineOutputs
 from scripts import negative_avg_log_error, BatchGenerator
 import pickle
+import os
 
 
 emdim = 600
@@ -46,6 +50,12 @@ model = Model([passage_input, question_input], [output])
 
 model.summary()
 
+try:
+    model = multi_gpu_model(model)
+except:
+    pass
+
+adadelta = Adadelta(lr=0.5)
 model.compile(loss=negative_avg_log_error, optimizer='adadelta', metrics=[])
 
 train_generator = BatchGenerator('train')
@@ -53,20 +63,14 @@ validate_generator = BatchGenerator('dev')
 
 epochs = 40
 
-history = model.fit_generator(train_generator, epochs=1, validation_data=validate_generator, shuffle=False)
-with open('history', 'wb') as f:
-    pickle.dump(history.history,f)
-model.save('bidaf_0')
+saved_items_dir = os.path.join(os.path.dirname(__file__), 'saved_items')
+if not os.path.exists(saved_items_dir):
+    os.makedirs(saved_items_dir)
 
-for i in range(1, epochs):
-    with open('history', 'rb') as f:
-        old_history = pickle.load(f)
+history_file = os.path.join(saved_items_dir, 'history')
+csv_logger = CSVLogger(history_file, append=True)
 
-    history = model.fit_generator(train_generator, epochs=1, validation_data=validate_generator, shuffle=False)
-    old_history['loss'].extend(history.history['loss'])
-    old_history['val_loss'].extend(history.history['val_loss'])
-    
-    with open('history', 'wb') as f:
-        pickle.dump(old_history, f)    
-    
-    model.save('bidaf_{}'.format(i))
+save_model_file = os.path.join(saved_items_dir, 'bidaf_{epoch:02d}.h5')
+checkpointer = ModelCheckpoint(filepath=save_model_file, verbose=1)
+
+history = model.fit_generator(train_generator, epochs=epochs, callbacks=[csv_logger, checkpointer], validation_data=validate_generator, shuffle=False)
