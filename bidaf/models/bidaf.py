@@ -2,7 +2,7 @@ from keras.layers import Input, TimeDistributed, LSTM, Bidirectional
 from keras.models import Model
 from keras.optimizers import Adadelta
 from keras.callbacks import CSVLogger, ModelCheckpoint
-from keras.utlis import multi_gpu_model
+from keras.utils import multi_gpu_model
 from ..layers import Highway, Similarity, C2QAttention, Q2CAttention, MergedContext, SpanBegin, SpanEnd, CombineOutputs
 from ..scripts import negative_avg_log_error
 import os
@@ -10,7 +10,7 @@ import os
 
 class BidirectionalAttentionFlow():
 
-    def __init__(self, emdim=600, num_highway_layers=2, num_decoders=1):
+    def __init__(self, emdim, num_highway_layers=2, num_decoders=1):
         self.emdim = emdim
 
         question_input = Input(shape=(None, emdim), dtype='float32', name="question_input")

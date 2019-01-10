@@ -9,14 +9,12 @@ class BatchGenerator(Sequence):
 
     vectors = None
 
-    def __init__(self, gen_type, batch_size=32, emdim=600):
+    def __init__(self, gen_type, batch_size, emdim):
         'Initialization'
 
         base_dir = os.path.join(os.path.dirname(__file__), os.pardir, 'data')
 
         self.vectors = MagnitudeVectors(base_dir, emdim).load_vectors()
-
-        BatchGenerator.load_magnitude_data(base_dir, emdim)
 
         self.context_file = os.path.join(base_dir, 'squad', gen_type + '.context')
         self.question_file = os.path.join(base_dir, 'squad', gen_type + '.question')
