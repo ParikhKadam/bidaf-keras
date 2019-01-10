@@ -16,7 +16,7 @@ A pretrained model will be made available soon. My teammate is working on buildi
 
 ## To-do list
 - Make this project as a portable module and publish it on pypi
-- Support to use module using commandline arguments
+- Support to use module using web based GUI interface
 
 I don't know which things should I keep in mind to do this (such as if a directory doesn't exists at runtime, the model should create it dynamically instead of throwing an error). If you have such points that I should keep in mind, consider contributing to this project. Also, if you have time to implement it in this project, submit your work with a pull request on a new branch.
 
