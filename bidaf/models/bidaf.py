@@ -71,7 +71,7 @@ class BidirectionalAttentionFlow():
         callbacks = []
 
         if save_history:
-            history_file = os.path.join(saved_items_dir, 'history')
+            history_file = os.path.join(saved_items_dir, 'history.csv')
             csv_logger = CSVLogger(history_file, append=True)
             callbacks.append(csv_logger)
 
