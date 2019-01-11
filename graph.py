@@ -67,7 +67,7 @@ saved_items_dir = os.path.join(os.path.dirname(__file__), 'saved_items')
 if not os.path.exists(saved_items_dir):
     os.makedirs(saved_items_dir)
 
-history_file = os.path.join(saved_items_dir, 'history')
+history_file = os.path.join(saved_items_dir, 'history.csv')
 csv_logger = CSVLogger(history_file, append=True)
 
 save_model_file = os.path.join(saved_items_dir, 'bidaf_{epoch:02d}.h5')
