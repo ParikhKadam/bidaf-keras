@@ -4,13 +4,13 @@ from keras.optimizers import Adadelta
 from keras.callbacks import CSVLogger, ModelCheckpoint
 from keras.utils import multi_gpu_model
 from ..layers import Highway, Similarity, C2QAttention, Q2CAttention, MergedContext, SpanBegin, SpanEnd, CombineOutputs
-from ..scripts import negative_avg_log_error
+from ..scripts import negative_avg_log_error, accuracy
 import os
 
 
 class BidirectionalAttentionFlow():
 
-    def __init__(self, emdim, num_highway_layers=2, num_decoders=1):
+    def __init__(self, emdim, num_highway_layers=2, num_decoders=1, encoder_dropout=0, decoder_dropout=0):
         self.emdim = emdim
 
         question_input = Input(shape=(None, emdim), dtype='float32', name="question_input")
@@ -23,7 +23,8 @@ class BidirectionalAttentionFlow():
             passage_layer = TimeDistributed(highway_layer, name=highway_layer.name + "_ptd")
             passage_embedding = passage_layer(passage_input)
 
-        encoder_layer = Bidirectional(LSTM(emdim, return_sequences=True), name='bidirectional_encoder')
+        encoder_layer = Bidirectional(LSTM(emdim, recurrent_dropout=encoder_dropout,
+                                           return_sequences=True), name='bidirectional_encoder')
         encoded_question = encoder_layer(question_embedding)
         encoded_passage = encoder_layer(passage_embedding)
 
@@ -39,7 +40,8 @@ class BidirectionalAttentionFlow():
 
         modeled_passage = merged_context
         for i in range(num_decoders):
-            hidden_layer = Bidirectional(LSTM(emdim, return_sequences=True), name='bidirectional_decoder_{}'.format(i))
+            hidden_layer = Bidirectional(LSTM(emdim, recurrent_dropout=decoder_dropout,
+                                              return_sequences=True), name='bidirectional_decoder_{}'.format(i))
             modeled_passage = hidden_layer(modeled_passage)
 
         span_begin_probabilities = SpanBegin(name='span_begin')([merged_context, modeled_passage])
@@ -57,8 +59,8 @@ class BidirectionalAttentionFlow():
         except:
             pass
 
-        adadelta = Adadelta(lr=0.5)
-        model.compile(loss=negative_avg_log_error, optimizer=adadelta, metrics=[])
+        adadelta = Adadelta(lr=0.01)
+        model.compile(loss=negative_avg_log_error, optimizer=adadelta, metrics=[accuracy])
 
         self.model = model
 
@@ -71,19 +73,19 @@ class BidirectionalAttentionFlow():
         callbacks = []
 
         if save_history:
-            history_file = os.path.join(saved_items_dir, 'history.csv')
+            history_file = os.path.join(saved_items_dir, 'history')
             csv_logger = CSVLogger(history_file, append=True)
             callbacks.append(csv_logger)
 
         if save_model_per_epoch:
             save_model_file = os.path.join(saved_items_dir, 'bidaf_{epoch:02d}.h5')
-            checkpointer = ModelCheckpoint(filepath=save_model_file, verbose=1)
+            checkpointer = ModelCheckpoint(filepath=save_model_file, verbose=1, save_weights_only=True)
             callbacks.append(checkpointer)
 
         history = self.model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch, epochs=epochs, callbacks=callbacks, validation_data=validation_generator,
                                            validation_steps=validation_steps, workers=workers, use_multiprocessing=use_multiprocessing, shuffle=shuffle, initial_epoch=initial_epoch)
 
         if not save_model_per_epoch:
-            self.model.save(os.path.join(saved_items_dir, 'bidaf.h5'))
+            self.model.save_weights(os.path.join(saved_items_dir, 'bidaf.h5'))
 
         return history, self.model
