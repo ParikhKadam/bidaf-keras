@@ -31,3 +31,7 @@ class SpanEnd(Layer):
     def compute_output_shape(self, input_shape):
         _, merged_context_shape, _, _ = input_shape
         return merged_context_shape[:-1]
+
+    def get_config(self):
+        config = super().get_config()
+        return config

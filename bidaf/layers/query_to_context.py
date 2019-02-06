@@ -24,3 +24,7 @@ class Q2CAttention(Layer):
     def compute_output_shape(self, input_shape):
         similarity_matrix_shape, encoded_context_shape = input_shape
         return similarity_matrix_shape[:-1] + encoded_context_shape[-1:]
+
+    def get_config(self):
+        config = super().get_config()
+        return config

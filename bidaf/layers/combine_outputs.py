@@ -22,3 +22,7 @@ class CombineOutputs(Layer):
     def compute_output_shape(self, input_shape):
         number_of_tensors = len(input_shape)
         return input_shape[0][0:1] + (number_of_tensors, ) + input_shape[0][1:]
+
+    def get_config(self):
+        config = super().get_config()
+        return config

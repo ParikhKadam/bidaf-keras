@@ -44,3 +44,7 @@ class Similarity(Layer):
         num_context_words = input_shape[0][1]
         num_query_words = input_shape[1][1]
         return (batch_size, num_context_words, num_query_words)
+
+    def get_config(self):
+        config = super().get_config()
+        return config

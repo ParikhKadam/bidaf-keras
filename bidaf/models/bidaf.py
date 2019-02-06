@@ -79,13 +79,13 @@ class BidirectionalAttentionFlow():
 
         if save_model_per_epoch:
             save_model_file = os.path.join(saved_items_dir, 'bidaf_{epoch:02d}.h5')
-            checkpointer = ModelCheckpoint(filepath=save_model_file, verbose=1, save_weights_only=True)
+            checkpointer = ModelCheckpoint(filepath=save_model_file, verbose=1)
             callbacks.append(checkpointer)
 
         history = self.model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch, epochs=epochs, callbacks=callbacks, validation_data=validation_generator,
                                            validation_steps=validation_steps, workers=workers, use_multiprocessing=use_multiprocessing, shuffle=shuffle, initial_epoch=initial_epoch)
 
         if not save_model_per_epoch:
-            self.model.save_weights(os.path.join(saved_items_dir, 'bidaf.h5'))
+            self.model.save(os.path.join(saved_items_dir, 'bidaf.h5'))
 
         return history, self.model

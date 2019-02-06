@@ -9,7 +9,7 @@ class BatchGenerator(Sequence):
 
     vectors = None
 
-    def __init__(self, gen_type, batch_size, emdim):
+    def __init__(self, gen_type, batch_size, emdim, shuffle=False):
         'Initialization'
 
         base_dir = os.path.join(os.path.dirname(__file__), os.pardir, 'data')
@@ -26,6 +26,8 @@ class BatchGenerator(Sequence):
             for i, _ in enumerate(f):
                 pass
         self.num_of_batches = (i + 1) // self.batch_size
+        self.indices = np.arange(i + 1)
+        self.shuffle = shuffle
 
     def __len__(self):
         'Denotes the number of batches per epoch'
@@ -37,34 +39,34 @@ class BatchGenerator(Sequence):
         start_index = (index * self.batch_size) + 1
         end_index = ((index + 1) * self.batch_size) + 1
 
+        inds = self.indices[start_index:end_index]
+
         contexts = []
         with open(self.context_file, 'r', encoding='utf-8') as cf:
             for i, line in enumerate(cf, start=1):
                 line = line[:-1]
-                if i >= start_index:
+                if i in inds:
                     contexts.append(line.split(' '))
-                if i == end_index - 1:
-                    break
 
         questions = []
         with open(self.question_file, 'r', encoding='utf-8') as qf:
             for i, line in enumerate(qf, start=1):
                 line = line[:-1]
-                if i >= start_index:
+                if i in inds:
                     questions.append(line.split(' '))
-                if i == end_index - 1:
-                    break
 
         answer_spans = []
         with open(self.span_file, 'r', encoding='utf-8') as sf:
             for i, line in enumerate(sf, start=1):
                 line = line[:-1]
-                if i >= start_index:
+                if i in inds:
                     answer_spans.append(line.split(' '))
-                if i == end_index - 1:
-                    break
 
         context_batch = self.vectors.query(contexts)
         question_batch = self.vectors.query(questions)
         span_batch = np.expand_dims(np.array(answer_spans, dtype='float32'), axis=1)
         return [context_batch, question_batch], [span_batch]
+
+    def on_epoch_end(self):
+        if self.shuffle:
+            np.random.shuffle(self.indices)

@@ -22,3 +22,7 @@ class SpanBegin(Layer):
     def compute_output_shape(self, input_shape):
         merged_context_shape, _ = input_shape
         return merged_context_shape[:-1]
+
+    def get_config(self):
+        config = super().get_config()
+        return config

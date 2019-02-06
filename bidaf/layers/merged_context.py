@@ -21,3 +21,7 @@ class MergedContext(Layer):
     def compute_output_shape(self, input_shape):
         encoded_context_shape, _, _ = input_shape
         return encoded_context_shape[:-1] + (encoded_context_shape[-1] * 4, )
+
+    def get_config(self):
+        config = super().get_config()
+        return config
