@@ -35,6 +35,9 @@ Thoughts, samples codes, modifications and any other type of contributions are a
 - [Dharanee Patel](https://github.com/dharaneepatel15/)
 - [Zeel Patel](https://github.com/zeelp898/)
 
+## Our Guide
+- [Prof. Tushar A. Champaneria](https://github.com/tacldce/)
+
 ## Special Thanks to the researchers of BiDAF
 - Sir, [Minjoon Seo](https://github.com/seominjoon/) for helping me out personally
 - The team of allenai (http://www.allenai.org/)
