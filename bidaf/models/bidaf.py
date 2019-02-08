@@ -1,5 +1,5 @@
 from keras.layers import Input, TimeDistributed, LSTM, Bidirectional
-from keras.models import Model
+from keras.models import Model, load_model
 from keras.optimizers import Adadelta
 from keras.callbacks import CSVLogger, ModelCheckpoint
 from keras.utils import multi_gpu_model
@@ -63,6 +63,22 @@ class BidirectionalAttentionFlow():
         model.compile(loss=negative_avg_log_error, optimizer=adadelta, metrics=[accuracy])
 
         self.model = model
+
+    def load_bidaf(self, path):
+        custom_objects = {
+            'Highway': Highway, 
+            'Similarity': Similarity, 
+            'C2QAttention': C2QAttention, 
+            'Q2CAttention': Q2CAttention, 
+            'MergedContext': MergedContext, 
+            'SpanBegin': SpanBegin, 
+            'SpanEnd': SpanEnd, 
+            'CombineOutputs': CombineOutputs,
+            'negative_avg_log_error': negative_avg_log_error, 
+            'accuracy': accuracy
+        }
+        
+        self.model = load_model(path, custom_objects=custom_objects)
 
     def train_model(self, train_generator, steps_per_epoch=None, epochs=1, validation_generator=None, validation_steps=None, workers=1, use_multiprocessing=False, shuffle=True, initial_epoch=0, save_history=False, save_model_per_epoch=False):
 

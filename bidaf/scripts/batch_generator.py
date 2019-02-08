@@ -9,7 +9,7 @@ class BatchGenerator(Sequence):
 
     vectors = None
 
-    def __init__(self, gen_type, batch_size, emdim, shuffle=False):
+    def __init__(self, gen_type, batch_size, emdim, shuffle):
         'Initialization'
 
         base_dir = os.path.join(os.path.dirname(__file__), os.pardir, 'data')
