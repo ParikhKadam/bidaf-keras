@@ -4,7 +4,7 @@ from keras.optimizers import Adadelta
 from keras.callbacks import CSVLogger, ModelCheckpoint
 from keras.utils import multi_gpu_model
 from ..layers import Highway, Similarity, C2QAttention, Q2CAttention, MergedContext, SpanBegin, SpanEnd, CombineOutputs
-from ..scripts import negative_avg_log_error, accuracy
+from ..scripts import negative_avg_log_error, accuracy, ModelMGPU
 import os
 
 
@@ -54,10 +54,10 @@ class BidirectionalAttentionFlow():
 
         model.summary()
 
-        try:
-            model = multi_gpu_model(model)
-        except:
-            pass
+        #try:
+        #    model = ModelMGPU(model)
+        #except:
+        #    pass
 
         adadelta = Adadelta(lr=0.01)
         model.compile(loss=negative_avg_log_error, optimizer=adadelta, metrics=[accuracy])
@@ -100,7 +100,6 @@ class BidirectionalAttentionFlow():
 
         history = self.model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch, epochs=epochs, callbacks=callbacks, validation_data=validation_generator,
                                            validation_steps=validation_steps, workers=workers, use_multiprocessing=use_multiprocessing, shuffle=shuffle, initial_epoch=initial_epoch)
-
         if not save_model_per_epoch:
             self.model.save(os.path.join(saved_items_dir, 'bidaf.h5'))
 
