@@ -4,3 +4,4 @@ from .magnitude import MagnitudeVectors
 from .data_generator import load_data_generators
 from .accuracy_metric import accuracy
 from .multi_gpu_model import ModelMGPU
+from .preprocess import data_download_and_preprocess
