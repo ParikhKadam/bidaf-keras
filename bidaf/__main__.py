@@ -1,6 +1,6 @@
 from .models import BidirectionalAttentionFlow
 from .scripts import load_data_generators
-from .script import data_download_and_preprocess
+from .scripts import data_download_and_preprocess
 import os
 # import numpy as np
 # from keras.optimizers import Adadelta
