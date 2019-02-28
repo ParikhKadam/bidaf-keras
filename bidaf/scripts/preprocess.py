@@ -10,6 +10,7 @@ from six.moves.urllib.request import urlretrieve
 
 random.seed(42)
 np.random.seed(42)
+nltk.download('punkt')
 
 SQUAD_BASE_URL = "https://rajpurkar.github.io/SQuAD-explorer/dataset/"
 
