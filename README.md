@@ -12,7 +12,7 @@ A pretrained model will be made available soon. My teammate is working on buildi
 ## What you can do with this project:
 - Train/Retrain this model with your own dataset.
 - Use the pretrained model for extending your own model or to try this one out.
-- Modify the code of this model to develop a new model architucture out of it.
+- Modify the code of this model to develop a new model architecture out of it.
 
 ## To-do list
 - Make this project as a portable module and publish it on pypi
