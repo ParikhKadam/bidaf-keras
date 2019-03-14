@@ -125,10 +125,6 @@ def get_char_word_loc_mapping(context, context_tokens):
     else:
         return mapping
 
-
-# In[14]:
-
-
 def preprocess_and_write(dataset, tier, out_dir):
     """Reads the dataset, extracts context, question, answer, tokenizes them, and calculates answer span in terms of token indices.
     Note: due to tokenization issues, and the fact that the original answer spans are given in terms of characters, some examples are discarded because we cannot get a clean span in terms of tokens.
