@@ -10,14 +10,8 @@ import os
 
 def main():
 
-    squad_dir = os.path.join(os.path.dirname(__file__), 'data', 'squad')
-    files = ['dev-v1.1.json', 'dev.answer', 'dev.context', 'dev.question', 'dev.span',
-             'train-v1.1.json', 'train.answer', 'train.context', 'train.question', 'train.span']
-    for f in files:
-        if not os.path.isfile(os.path.join(squad_dir, f)):
-            data_download_and_preprocess()
-            break
-
+    data_download_and_preprocess()
+    
     emdim = 400
     bidaf = BidirectionalAttentionFlow(emdim=emdim, num_highway_layers=2,
                                        num_decoders=1, encoder_dropout=0.4, decoder_dropout=0.6)
