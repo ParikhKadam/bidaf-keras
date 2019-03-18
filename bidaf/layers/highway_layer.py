@@ -23,6 +23,7 @@ class Highway(Layer):
         self.dense_1.build(input_shape)
         self.dense_2 = Dense(units=dim)
         self.dense_2.build(input_shape)
+        self.trainable_weights = [self.dense_1.trainable_weights, self.dense_2.trainable_weights]
 
         super(Highway, self).build(input_shape)  # Be sure to call this at the end
 

@@ -14,6 +14,7 @@ class SpanBegin(Layer):
         input_shape_dense_1 = input_shape[0][:-1] + (last_dim, )
         self.dense_1 = Dense(units=1)
         self.dense_1.build(input_shape_dense_1)
+        self.trainable_weights = self.dense_1.trainable_weights
         super(SpanBegin, self).build(input_shape)
 
     def call(self, inputs):

@@ -17,6 +17,7 @@ class SpanEnd(Layer):
         input_shape_dense_1 = input_shape[0][:-1] + (emdim*10, )
         self.dense_1 = Dense(units=1)
         self.dense_1.build(input_shape_dense_1)
+        self.trainable_weights = [self.bilstm_1.trainable_weights, self.dense_1.trainable_weights]
         super(SpanEnd, self).build(input_shape)
 
     def call(self, inputs):
