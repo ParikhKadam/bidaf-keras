@@ -15,6 +15,7 @@ A pretrained model will be made available soon. My teammate is working on buildi
 - Modify the code of this model to develop a new model architecture out of it.
 
 ## To-do list
+- NOTE: Only some of the weights are marked as Trainable.
 - Make this project as a portable module and publish it on pypi
 - Support to use module using web based GUI interface
 
