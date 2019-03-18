@@ -33,7 +33,7 @@ class SpanEnd(Layer):
 
         span_end_input = K.concatenate([merged_context, span_end_representation])
 
-        span_end_weights = TimeDistributed(self.dense_layer_1)(span_end_input)
+        span_end_weights = TimeDistributed(self.dense_1)(span_end_input)
 
         span_end_probabilities = Softmax()(K.squeeze(span_end_weights, axis=-1))
         return span_end_probabilities
