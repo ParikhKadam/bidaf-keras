@@ -10,6 +10,13 @@ class SpanEnd(Layer):
         super(SpanEnd, self).__init__(**kwargs)
 
     def build(self, input_shape):
+        emdim = input_shape[0][-1] // 2
+        input_shape_bilstm_1 = input_shape[0][:-1] + (emdim*14, )
+        self.bilstm_1 = Bidirectional(LSTM(emdim, return_sequences=True))
+        self.bilstm_1.build(input_shape_bilstm_1)
+        input_shape_dense_1 = input_shape[0][:-1] + (emdim*10, )
+        self.dense_1 = Dense(units=1)
+        self.dense_1.build(input_shape_dense_1)
         super(SpanEnd, self).build(input_shape)
 
     def call(self, inputs):
@@ -21,10 +28,13 @@ class SpanEnd(Layer):
         multiply1 = modeled_passage * passage_weighted_by_predicted_span
         span_end_representation = K.concatenate(
             [merged_context, modeled_passage, passage_weighted_by_predicted_span, multiply1])
-        emdim = K.int_shape(encoded_passage)[-1] // 2
-        span_end_representation = Bidirectional(LSTM(emdim, return_sequences=True))(span_end_representation)
+
+        span_end_representation = self.bilstm_1(span_end_representation)
+
         span_end_input = K.concatenate([merged_context, span_end_representation])
-        span_end_weights = TimeDistributed(Dense(units=1))(span_end_input)
+
+        span_end_weights = TimeDistributed(self.dense_layer_1)(span_end_input)
+
         span_end_probabilities = Softmax()(K.squeeze(span_end_weights, axis=-1))
         return span_end_probabilities
 

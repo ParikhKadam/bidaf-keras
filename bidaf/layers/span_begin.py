@@ -10,13 +10,17 @@ class SpanBegin(Layer):
         super(SpanBegin, self).__init__(**kwargs)
 
     def build(self, input_shape):
+        last_dim = input_shape[0][-1] + input_shape[1][-1]
+        input_shape_dense_1 = input_shape[0][:-1] + (last_dim, )
+        self.dense_1 = Dense(units=1)
+        self.dense_1.build(input_shape_dense_1)
         super(SpanBegin, self).build(input_shape)
 
     def call(self, inputs):
         merged_context, modeled_passage = inputs
         span_begin_input = K.concatenate([merged_context, modeled_passage])
-        span_begin_weights = TimeDistributed(Dense(units=1))(span_begin_input)
-        span_begin_probabilities = K.squeeze(Softmax()(span_begin_weights), axis=-1)
+        span_begin_weights = TimeDistributed(self.dense_1)(span_begin_input)
+        span_begin_probabilities = Softmax()(K.squeeze(span_begin_weights, axis=-1))
         return span_begin_probabilities
 
     def compute_output_shape(self, input_shape):
