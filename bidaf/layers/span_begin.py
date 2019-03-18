@@ -16,7 +16,7 @@ class SpanBegin(Layer):
         merged_context, modeled_passage = inputs
         span_begin_input = K.concatenate([merged_context, modeled_passage])
         span_begin_weights = TimeDistributed(Dense(units=1))(span_begin_input)
-        span_begin_probabilities = K.squeeze(Softmax()(span_begin_weights), axis=-1)
+        span_begin_probabilities = Softmax()(K.squeeze(span_begin_weights, axis=-1))
         return span_begin_probabilities
 
     def compute_output_shape(self, input_shape):
