@@ -10,10 +10,10 @@ import os
 
 def main():
 
-    data_download_and_preprocess()
-    
     emdim = 400
     squad_version = 2.0
+
+    data_download_and_preprocess(squad_version=squad_version, do_lowercase=True)
 
     bidaf = BidirectionalAttentionFlow(emdim=emdim, num_highway_layers=2,
                                        num_decoders=1, encoder_dropout=0.4, decoder_dropout=0.6)
