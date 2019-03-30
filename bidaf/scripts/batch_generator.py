@@ -9,16 +9,20 @@ class BatchGenerator(Sequence):
 
     vectors = None
 
-    def __init__(self, gen_type, batch_size, emdim, shuffle):
+    def __init__(self, gen_type, batch_size, emdim, squad_version, shuffle):
         'Initialization'
 
         base_dir = os.path.join(os.path.dirname(__file__), os.pardir, 'data')
 
         self.vectors = MagnitudeVectors(base_dir, emdim).load_vectors()
+        self.squad_version = squad_version
 
-        self.context_file = os.path.join(base_dir, 'squad', gen_type + '.context')
-        self.question_file = os.path.join(base_dir, 'squad', gen_type + '.question')
-        self.span_file = os.path.join(base_dir, 'squad', gen_type + '.span')
+        self.context_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.context'.format(squad_version))
+        self.question_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.question'.format(squad_version))
+        self.span_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.span'.format(squad_version))
+        if self.squad_version == 2.0:
+            self.is_impossible_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.is_impossible'.format(squad_version))
+
         self.batch_size = batch_size
         i = 0
         with open(self.span_file, 'r', encoding='utf-8') as f:
@@ -61,6 +65,19 @@ class BatchGenerator(Sequence):
                 line = line[:-1]
                 if i in inds:
                     answer_spans.append(line.split(' '))
+
+        if self.squad_version == 2.0:
+            is_impossible = []
+            with open(self.is_impossible_file, 'r', encoding='utf-8') as isimpf:
+                for i, line in enumerate(isimpf, start=1):
+                    line = line[:-1]
+                    if i in inds:
+                        is_impossible.append(line)
+
+            for i, flag in enumerate(is_impossible):
+                contexts[i].append("unanswerable")
+                if flag == "1":
+                    answer_spans[i] = [len(contexts[i])-1, len(contexts[i])-1]
 
         context_batch = self.vectors.query(contexts)
         question_batch = self.vectors.query(questions)
