@@ -34,7 +34,7 @@ def tokenize(sequence, do_lowercase):
 
     if do_lowercase:
         tokens = [token.replace("``", '"').replace("''", '"').lower()
-              for token in nltk.word_tokenize(sequence)]
+                  for token in nltk.word_tokenize(sequence)]
     else:
         tokens = [token.replace("``", '"').replace("''", '"')
                   for token in nltk.word_tokenize(sequence)]
@@ -74,8 +74,8 @@ def maybe_download(base_url, filename, destination_dir, show_progress=True):
                 with DownloadProgressBar(unit='B', unit_scale=True,
                                          miniters=1, desc=filename) as t:
                     local_filename, _ = urlretrieve(base_url + filename,
-                                               filename=os.path.join(destination_dir, filename),
-                                               reporthook=t.update_to)
+                                                    filename=os.path.join(destination_dir, filename),
+                                                    reporthook=t.update_to)
             else:
                 # Simple download with no progress bar
                 local_filename, _ = urlretrieve(base_url + filename, filename=os.path.join(destination_dir, filename))
@@ -230,8 +230,12 @@ def preprocess_and_write(dataset, tier, out_dir, squad_version, do_lowercase):
                     num_tokenprob += 1
                     continue  # skip this question/answer pair
 
-                examples.append((' '.join(context_tokens), ' '.join(question_tokens), ' '.join(
-                    ans_tokens), ' '.join([str(ans_start_wordloc), str(ans_end_wordloc)]), str(is_impossible)))
+                if squad_version == 2.0:
+                    examples.append((' '.join(context_tokens), ' '.join(question_tokens), ' '.join(
+                        ans_tokens), ' '.join([str(ans_start_wordloc), str(ans_end_wordloc)]), str(is_impossible)))
+                else:
+                    examples.append((' '.join(context_tokens), ' '.join(question_tokens), ' '.join(
+                        ans_tokens), ' '.join([str(ans_start_wordloc), str(ans_end_wordloc)])))
 
                 num_exs += 1
 
@@ -251,7 +255,8 @@ def preprocess_and_write(dataset, tier, out_dir, squad_version, do_lowercase):
             open(os.path.join(out_dir, tier + '-v{}.span'.format(squad_version)), 'w', encoding='utf-8') as span_file:
 
         if squad_version == 2.0:
-            is_impossible_file = open(os.path.join(out_dir, tier + '-v{}.is_impossible'.format(squad_version)), 'w', encoding='utf-8')
+            is_impossible_file = open(os.path.join(
+                out_dir, tier + '-v{}.is_impossible'.format(squad_version)), 'w', encoding='utf-8')
 
         for i in indices:
 
@@ -269,7 +274,8 @@ def preprocess_and_write(dataset, tier, out_dir, squad_version, do_lowercase):
             if squad_version == 2.0:
                 write_to_file(is_impossible_file, is_impossible)
 
-        is_impossible_file.close()
+        if squad_version == 2.0:
+            is_impossible_file.close()
 
 
 def data_download_and_preprocess(squad_version=1.1, do_lowercase=True):
