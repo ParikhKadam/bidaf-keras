@@ -84,7 +84,7 @@ class BatchGenerator(Sequence):
 
         context_batch = self.vectors.query(contexts, pad_to_length=self.max_passage_length)
         question_batch = self.vectors.query(questions, pad_to_length=self.max_query_length)
-        span_batch = np.expand_dims(np.array(answer_spans, dtype='float32'), axis=1)
+        span_batch = np.expand_dims(np.array(answer_spans, dtype='float32'), axis=1).clip(0, self.max_passage_length)
         return [context_batch, question_batch], [span_batch]
 
     def on_epoch_end(self):
