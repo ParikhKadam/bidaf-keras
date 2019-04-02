@@ -10,11 +10,11 @@ import os
 
 class BidirectionalAttentionFlow():
 
-    def __init__(self, emdim, num_highway_layers=2, num_decoders=1, encoder_dropout=0, decoder_dropout=0):
+    def __init__(self, emdim, max_passage_length=None, max_query_length=None, num_highway_layers=2, num_decoders=1, encoder_dropout=0, decoder_dropout=0):
         self.emdim = emdim
 
-        question_input = Input(shape=(None, emdim), dtype='float32', name="question_input")
-        passage_input = Input(shape=(None, emdim), dtype='float32', name="passage_input")
+        question_input = Input(shape=(max_query_length, emdim), dtype='float32', name="question_input")
+        passage_input = Input(shape=(max_passage_length, emdim), dtype='float32', name="passage_input")
 
         for i in range(num_highway_layers):
             highway_layer = Highway(name='highway_{}'.format(i))

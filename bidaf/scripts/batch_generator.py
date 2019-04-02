@@ -9,13 +9,16 @@ class BatchGenerator(Sequence):
 
     vectors = None
 
-    def __init__(self, gen_type, batch_size, emdim, squad_version, shuffle):
+    def __init__(self, gen_type, batch_size, emdim, squad_version, max_passage_length, max_query_length, shuffle):
         'Initialization'
 
         base_dir = os.path.join(os.path.dirname(__file__), os.pardir, 'data')
 
         self.vectors = MagnitudeVectors(base_dir, emdim).load_vectors()
         self.squad_version = squad_version
+
+        self.max_passage_length = max_passage_length
+        self.max_query_length = max_query_length
 
         self.context_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.context'.format(squad_version))
         self.question_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.question'.format(squad_version))
@@ -79,8 +82,8 @@ class BatchGenerator(Sequence):
                 if flag == "1":
                     answer_spans[i] = [len(contexts[i])-1, len(contexts[i])-1]
 
-        context_batch = self.vectors.query(contexts)
-        question_batch = self.vectors.query(questions)
+        context_batch = self.vectors.query(contexts, pad_to_length=self.max_passage_length)
+        question_batch = self.vectors.query(questions, pad_to_length=self.max_query_length)
         span_batch = np.expand_dims(np.array(answer_spans, dtype='float32'), axis=1)
         return [context_batch, question_batch], [span_batch]
 
