@@ -78,13 +78,16 @@ class BatchGenerator(Sequence):
                         is_impossible.append(line)
 
             for i, flag in enumerate(is_impossible):
-                contexts[i].append("unanswerable")
+                if self.max_passage_length == None:
+                    contexts[i].append("unanswerable")
+                else:
+                    contexts[i][self.max_passage_length-1] = "unanswerable"
                 if flag == "1":
                     answer_spans[i] = [len(contexts[i])-1, len(contexts[i])-1]
 
         context_batch = self.vectors.query(contexts, pad_to_length=self.max_passage_length)
         question_batch = self.vectors.query(questions, pad_to_length=self.max_query_length)
-        span_batch = np.expand_dims(np.array(answer_spans, dtype='float32'), axis=1).clip(0, self.max_passage_length)
+        span_batch = np.expand_dims(np.array(answer_spans, dtype='float32'), axis=1).clip(0, self.max_passage_length-1)
         return [context_batch, question_batch], [span_batch]
 
     def on_epoch_end(self):
