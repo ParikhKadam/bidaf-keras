@@ -28,6 +28,11 @@ I don't know which things should I keep in mind to do this (such as if a directo
 
 Thoughts, samples codes, modifications and any other type of contributions are appreciated. This is my first project in Deep Learning and also first being open source. I will need as much help as possible as I don't know the path I need to follow. Thank you..
 
+
+## Warnings
+- There's a dependency flaw in our project. The package we used to generate word embeddings, pymagnitude, hasn't yet added suport for fixed length inputs - https://github.com/plasticityai/magnitude/issues/50. Hence, trying to use this model with fixed length input will throw an error. We have looked into their source code and found the problem. We have forked that repo, fixed the issue and then generated a pull request but it seems like the author is no more maintaining that project. So, we have to wait. Till then, you may use the patched version of that package to make this functionality work. You can find it here - https://github.com/ParikhKadam/magnitude/tree/patch-1
+- If the author is no more supporting this project, we are planning to maintain our forked version in future. But we don't know how to publish such a forked version on PyPI. You can help us in case you know it. Or wait until we learn xD.
+
 ## Issues
 - Open:
   1. ...
