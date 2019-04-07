@@ -79,13 +79,13 @@ class BatchGenerator(Sequence):
                         is_impossible.append(line)
 
             for i, flag in enumerate(is_impossible):
-                contexts[i].append("unanswerable")
+                contexts[i].insert(0, "unanswerable")
                 if flag == "1":
-                    answer_spans[i] = [len(contexts[i]) - 1, len(contexts[i]) - 1]
+                    answer_spans[i] = [0, 0]
+                else:
+                    answer_spans[i] = [val+1 for val in answer_spans[i]]
 
         context_batch = self.vectors.query(contexts, pad_to_length=self.max_passage_length)
-        if self.squad_version == 2.0 and self.max_passage_length is not None:
-            context_batch[:, -1, :] = self.vectors.query("unanswerable")
         question_batch = self.vectors.query(questions, pad_to_length=self.max_query_length)
         span_batch = np.expand_dims(np.array(answer_spans, dtype='float32'),
                                     axis=1).clip(0, self.max_passage_length - 1)
