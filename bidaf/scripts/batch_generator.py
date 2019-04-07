@@ -24,7 +24,8 @@ class BatchGenerator(Sequence):
         self.question_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.question'.format(squad_version))
         self.span_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.span'.format(squad_version))
         if self.squad_version == 2.0:
-            self.is_impossible_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.is_impossible'.format(squad_version))
+            self.is_impossible_file = os.path.join(base_dir, 'squad', gen_type +
+                                                   '-v{}.is_impossible'.format(squad_version))
 
         self.batch_size = batch_size
         i = 0
@@ -80,13 +81,14 @@ class BatchGenerator(Sequence):
             for i, flag in enumerate(is_impossible):
                 contexts[i].append("unanswerable")
                 if flag == "1":
-                    answer_spans[i] = [len(contexts[i])-1, len(contexts[i])-1]
+                    answer_spans[i] = [len(contexts[i]) - 1, len(contexts[i]) - 1]
 
         context_batch = self.vectors.query(contexts, pad_to_length=self.max_passage_length)
         if self.squad_version == 2.0 and self.max_passage_length is not None:
             context_batch[:, -1, :] = self.vectors.query("unanswerable")
         question_batch = self.vectors.query(questions, pad_to_length=self.max_query_length)
-        span_batch = np.expand_dims(np.array(answer_spans, dtype='float32'), axis=1).clip(0, self.max_passage_length-1)
+        span_batch = np.expand_dims(np.array(answer_spans, dtype='float32'),
+                                    axis=1).clip(0, self.max_passage_length - 1)
         return [context_batch, question_batch], [span_batch]
 
     def on_epoch_end(self):
