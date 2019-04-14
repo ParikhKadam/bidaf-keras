@@ -4,7 +4,9 @@ from pymagnitude import Magnitude, MagnitudeUtils
 
 class MagnitudeVectors():
 
-    def __init__(self, base_dir, emdim):
+    def __init__(self, emdim):
+
+        base_dir = os.path.join(os.path.dirname(__file__), os.pardir, 'data')
 
         self.fasttext_dim = 300
         self.glove_dim = emdim - 300

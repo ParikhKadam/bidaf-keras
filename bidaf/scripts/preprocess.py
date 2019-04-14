@@ -151,7 +151,7 @@ def preprocess_and_write(dataset, tier, out_dir, squad_version, do_lowercase):
         article_paragraphs = dataset['data'][articles_id]['paragraphs']
         for pid in range(len(article_paragraphs)):
 
-            context = article_paragraphs[pid]['context']  # string
+            context = article_paragraphs[pid]['context'].strip()  # string
 
             # The following replacements are suggested in the paper
             # BidAF (Seo et al., 2016)
@@ -177,7 +177,7 @@ def preprocess_and_write(dataset, tier, out_dir, squad_version, do_lowercase):
             for qn in qas:
 
                 # read the question text and tokenize
-                question = qn['question']  # string
+                question = qn['question'].strip()  # string
                 question_tokens = tokenize(question, do_lowercase=do_lowercase)  # list of strings
 
                 # of the three answers, just take the first
@@ -261,9 +261,9 @@ def preprocess_and_write(dataset, tier, out_dir, squad_version, do_lowercase):
         for i in indices:
 
             if squad_version == 2.0:
-                (context, question, answer, answer_span, is_impossible) = examples[i]
+                (context, question, answer, answer_span, id, is_impossible) = examples[i]
             else:
-                (context, question, answer, answer_span) = examples[i]
+                (context, question, answer, answer_span, id) = examples[i]
 
             # write tokenized data to file
             write_to_file(context_file, context)
