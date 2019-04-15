@@ -261,9 +261,9 @@ def preprocess_and_write(dataset, tier, out_dir, squad_version, do_lowercase):
         for i in indices:
 
             if squad_version == 2.0:
-                (context, question, answer, answer_span, id, is_impossible) = examples[i]
+                (context, question, answer, answer_span, is_impossible) = examples[i]
             else:
-                (context, question, answer, answer_span, id) = examples[i]
+                (context, question, answer, answer_span) = examples[i]
 
             # write tokenized data to file
             write_to_file(context_file, context)
