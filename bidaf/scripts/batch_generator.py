@@ -23,7 +23,6 @@ class BatchGenerator(Sequence):
         self.context_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.context'.format(squad_version))
         self.question_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.question'.format(squad_version))
         self.span_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.span'.format(squad_version))
-        self.id_file = os.path.join(base_dir, 'squad', gen_type + '-v{}.id'.format(squad_version))
         if self.squad_version == 2.0:
             self.is_impossible_file = os.path.join(base_dir, 'squad', gen_type +
                                                    '-v{}.is_impossible'.format(squad_version))
