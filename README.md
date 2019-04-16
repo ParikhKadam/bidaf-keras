@@ -5,15 +5,16 @@ Implementation of [Bidirectional Attention Flow for Machine Comprehension](https
 This project is available for use as a complete module. Just install the requirements (will update with only the necessary ones) and then run the module named 'bidaf' using the command:
 `python -m bidaf`
 
-You can append your code in the \__main__.py file according to your needs. We are working on updating this as a perfect module which you can use via commandline arguments.
+You can append your code in the \_\_main\_\_.py file according to your needs. We are working on updating this as a perfect module which you can use via commandline arguments.
 
-A pretrained model will be made available soon. My teammate is working on building this model in tensorflow and it will also be available soon.
+A pretrained model will be made available soon.
 
 **NOTE:** I know that you are waiting for the first release of this project but training such a huge model takes a lot of time. And we don't have a high spec setup of our own. The code is all ready but we are adding features to it and continuously improving it. But the time for wait will be long as we lack resources. That's the reason why big companies like Google, Microsoft provide pre-trained models. Everyone cannot afford/have high spec setups.
 
 ## Features/Improvements in future releases
-- Support for SQUAD-v2.0
-- Support for user to specify fixed size input for context and query
+- Support for use via command line
+- GUI support
+- Database support
 
 ## What you can do with this project:
 - Train/Retrain this model with your own dataset.
@@ -22,7 +23,6 @@ A pretrained model will be made available soon. My teammate is working on buildi
 
 ## To-do list
 - Make this project as a portable module and publish it on pypi
-- Support to use module using web based GUI interface
 
 I don't know which things should I keep in mind to do this (such as if a directory doesn't exists at runtime, the model should create it dynamically instead of throwing an error). If you have such points that I should keep in mind, consider contributing to this project. Also, if you have time to implement it in this project, submit your work with a pull request on a new branch.
 
