@@ -49,3 +49,5 @@ def get_word_char_loc_mapping(context, context_tokens):
 
     assert len(mapping) == len(
         context_tokens), "Error occurred while mapping word index to character index.. Please report this issue on our GitHub repo."
+
+    return mapping
