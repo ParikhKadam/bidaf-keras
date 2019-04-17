@@ -4,7 +4,8 @@ from keras.optimizers import Adadelta
 from keras.callbacks import CSVLogger, ModelCheckpoint
 # from keras import backend as K
 from ..layers import Highway, Similarity, C2QAttention, Q2CAttention, MergedContext, SpanBegin, SpanEnd, CombineOutputs
-from ..scripts import negative_avg_log_error, accuracy, tokenize, MagnitudeVectors, get_best_span
+from ..scripts import negative_avg_log_error, accuracy, tokenize, MagnitudeVectors, get_best_span, \
+    get_word_char_loc_mapping
 # from ..scripts import ModelMGPU
 import os
 from functools import partial
@@ -179,27 +180,20 @@ class BidirectionalAttentionFlow():
         # using this, you will need to load model every time before prediction
         # K.clear_session()
 
-        batch_answer_span, batch_confidence_score = map(
-            partial(get_best_span, squad_version=squad_version, max_span_length=max_span_length),
-            y_pred_start, y_pred_end, contexts)
+        batch_answer_span = batch_confidence_score = []
+        for sample_id in range(len(contexts)):
+            answer_span, confidence_score = get_best_span(y_pred_start[sample_id, :], y_pred_end[sample_id, :],
+                                                          len(contexts[sample_id]), squad_version, max_span_length)
+            batch_answer_span.append(answer_span)
+            batch_confidence_score.append(confidence_score)
 
         answers = []
-        for index, answer in enumerate(batch_answer_span):
+        for index, answer_span in enumerate(batch_answer_span):
             context_tokens = contexts[index]
-            start, end = answer[0], answer[1]
+            start, end = answer_span[0], answer_span[1]
 
             # word index to character index mapping
-            mapping = {}
-            idx = 0
-            for i, word in enumerate(context_tokens):
-                id = original_passage[index].find(word, idx)
-                assert not id == -1, "Error occurred while mapping word index to character index.. Please report this issue on our GitHub repo."
-
-                idx = id
-                mapping[i] = id
-
-            assert len(mapping) == len(
-                context_tokens), "Error occurred while mapping word index to character index.. Please report this issue on our GitHub repo."
+            mapping = get_word_char_loc_mapping(original_passage[index], context_tokens)
 
             char_loc_start = mapping[start]
             # [1] => char_loc_end is set to point to one more character after the answer

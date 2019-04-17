@@ -1,4 +1,4 @@
-def get_best_span(span_begin_probs, span_end_probs, context, squad_version, max_span_length):
+def get_best_span(span_begin_probs, span_end_probs, context_length, squad_version, max_span_length):
     if len(span_begin_probs.shape) > 2 or len(span_end_probs.shape) > 2:
         raise ValueError("Input shapes must be (X,) or (1,X)")
     if len(span_begin_probs.shape) == 2:
@@ -16,7 +16,7 @@ def get_best_span(span_begin_probs, span_end_probs, context, squad_version, max_
             continue
 
         for j, val2 in enumerate(span_end_probs):
-            if j > len(context) - 1:
+            if j > context_length - 1:
                 break
 
             if (squad_version == 2.0 and j == 0) or (j < i):
@@ -35,3 +35,17 @@ def get_best_span(span_begin_probs, span_end_probs, context, squad_version, max_
             max_span_probability = span_begin_probs[0] * span_end_probs[0]
 
     return best_word_span, max_span_probability
+
+
+def get_word_char_loc_mapping(context, context_tokens):
+    mapping = {}
+    idx = 0
+    for i, word in enumerate(context_tokens):
+        id = context.find(word, idx)
+        assert not id == -1, "Error occurred while mapping word index to character index.. Please report this issue on our GitHub repo."
+
+        idx = id
+        mapping[i] = id
+
+    assert len(mapping) == len(
+        context_tokens), "Error occurred while mapping word index to character index.. Please report this issue on our GitHub repo."
