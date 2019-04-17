@@ -180,7 +180,8 @@ class BidirectionalAttentionFlow():
         # using this, you will need to load model every time before prediction
         # K.clear_session()
 
-        batch_answer_span = batch_confidence_score = []
+        batch_answer_span = []
+        batch_confidence_score = []
         for sample_id in range(len(contexts)):
             answer_span, confidence_score = get_best_span(y_pred_start[sample_id, :], y_pred_end[sample_id, :],
                                                           len(contexts[sample_id]), squad_version, max_span_length)
