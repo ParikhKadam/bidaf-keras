@@ -1,4 +1,4 @@
-def get_best_span(span_begin_probs, span_end_probs, squad_version, max_span_length):
+def get_best_span(span_begin_probs, span_end_probs, context, squad_version, max_span_length):
     if len(span_begin_probs.shape) > 2 or len(span_end_probs.shape) > 2:
         raise ValueError("Input shapes must be (X,) or (1,X)")
     if len(span_begin_probs.shape) == 2:
@@ -16,6 +16,9 @@ def get_best_span(span_begin_probs, span_end_probs, squad_version, max_span_leng
             continue
 
         for j, val2 in enumerate(span_end_probs):
+            if j > len(context) - 1:
+                break
+
             if (squad_version == 2.0 and j == 0) or (j < i):
                 continue
 

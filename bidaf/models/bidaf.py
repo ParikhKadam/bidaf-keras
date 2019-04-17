@@ -181,7 +181,7 @@ class BidirectionalAttentionFlow():
 
         batch_answer_span, batch_confidence_score = map(
             partial(get_best_span, squad_version=squad_version, max_span_length=max_span_length),
-            y_pred_start, y_pred_end)
+            y_pred_start, y_pred_end, contexts)
 
         answers = []
         for index, answer in enumerate(batch_answer_span):
@@ -201,16 +201,11 @@ class BidirectionalAttentionFlow():
             assert len(mapping) == len(
                 context_tokens), "Error occurred while mapping word index to character index.. Please report this issue on our GitHub repo."
 
-            # if the model finds an answer from the padded region
-            if end > len(context_tokens) - 1:
-                ans = "Sorry.. The model was unable to find an answer!"
-                char_loc_start = char_loc_end = -1
-            else:
-                char_loc_start = mapping[start]
-                # [1] => char_loc_end is set to point to one more character after the answer
-                char_loc_end = mapping[end] + len(context_tokens[end])
-                # [1] will help us getting a perfect slice without unnecessary increments/decrements
-                ans = original_passage[index][char_loc_start:char_loc_end]
+            char_loc_start = mapping[start]
+            # [1] => char_loc_end is set to point to one more character after the answer
+            char_loc_end = mapping[end] + len(context_tokens[end])
+            # [1] will help us getting a perfect slice without unnecessary increments/decrements
+            ans = original_passage[index][char_loc_start:char_loc_end]
 
             return_dict = {
                 "answer": ans,
