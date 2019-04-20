@@ -12,6 +12,8 @@ A pretrained model will be made available soon.
 **NOTE:** I know that you are waiting for the first release of this project but training such a huge model takes a lot of time. And we don't have a high spec setup of our own. The code is all ready but we are adding features to it and continuously improving it. But the time for wait will be long as we lack resources. That's the reason why big companies like Google, Microsoft provide pre-trained models. Everyone cannot afford/have high spec setups.
 
 ## Features/Improvements in future releases
+- Provide two modes for preprocessing: Strict and Moderate.
+- Measure accuracy of model with Moderate mode.
 - Support for use via command line
 - GUI support
 - Database support
