@@ -99,8 +99,8 @@ if __name__ == '__main__':
             print("You must specify a model to run predictions on it.", file=sys.stderr)
             sys.exit(1)
 
-        print("Your passage:", passage)
-        print("Your question:", question)
+        print("Your passage:", args.passage)
+        print("Your question:", args.question)
         print("Predicting answer...")
 
         bidaf_model.load_bidaf(os.path.join(os.path.dirname(__file__), 'saved_items', args.model_name))
