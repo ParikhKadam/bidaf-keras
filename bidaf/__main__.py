@@ -20,8 +20,8 @@ parser.add_argument('-mql', '--max_query_length', type=int, action='store',
 parser.add_argument('-l', '--do_lowercase', action='store_true', default=False, help='Convert input to lowercase')
 parser.add_argument('--model_name', type=str, action='store', default=None,
                     help='Model to load for predictions/resume training')
-parser.add_argument('-e', '--emdim', choices=[50, 100, 200, 300],
-                          action='store', default=100, help='GLoVE vectors dimention')
+parser.add_argument('-e', '--emdim', choices=[350, 400, 500, 600],
+                          action='store', default=400, help='Embedding (GLoVE + Fasttext) vectors dimension')
 parser.add_argument('-nhl', '--num_highway_layers', type=int, action='store',
                           default=1, help='Number of Highway layers')
 parser.add_argument('-nd', '--num_decoders', type=int, action='store', default=1, help='Number of decoders')
