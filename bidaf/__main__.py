@@ -1,6 +1,6 @@
 from .models import BidirectionalAttentionFlow
 from .scripts import load_data_generators
-from .scripts import data_download_and_preprocess
+from .scripts import data_download_and_preprocess, negative_avg_log_error, accuracy
 import os
 
 
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
         bidaf_model.load_bidaf(os.path.join(os.path.dirname(__file__), 'saved_items', args.model_name))
 
-        answer = bidaf_model.predict_ans(args.passage, args.question, squad_version=args.squad_version, max_span_length=args.max_span_length,
+        answer = bidaf_model.predict_ans(args.passage, args.question, squad_version=args.squad_version, max_span_length=args.max_ans_length,
                                          do_lowercase=args.do_lowercase, return_char_loc=args.return_char_loc, return_confidence_score=args.return_confidence_score)
 
         print("Predicted answer:", answer)
