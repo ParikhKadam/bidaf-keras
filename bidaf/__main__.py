@@ -20,13 +20,13 @@ parser.add_argument('-mql', '--max_query_length', type=int, action='store',
 parser.add_argument('-l', '--do_lowercase', action='store_true', default=False, help='Convert input to lowercase')
 parser.add_argument('--model_name', type=str, action='store', default=None,
                     help='Model to load for predictions/resume training')
-parser_train.add_argument('-e', '--emdim', choices=[50, 100, 200, 300],
+parser.add_argument('-e', '--emdim', choices=[50, 100, 200, 300],
                           action='store', default=100, help='GLoVE vectors dimention')
-parser_train.add_argument('-nhl', '--num_highway_layers', type=int, action='store',
+parser.add_argument('-nhl', '--num_highway_layers', type=int, action='store',
                           default=1, help='Number of Highway layers')
-parser_train.add_argument('-nd', '--num_decoders', type=int, action='store', default=1, help='Number of decoders')
-parser_train.add_argument('-ed', '--encoder_dropout', type=float, action='store', default=0.0, help='Encoder dropout')
-parser_train.add_argument('-dd', '--decoder_dropout', type=float, action='store', default=0.0, help='Decoder dropout')
+parser.add_argument('-nd', '--num_decoders', type=int, action='store', default=1, help='Number of decoders')
+parser.add_argument('-ed', '--encoder_dropout', type=float, action='store', default=0.0, help='Encoder dropout')
+parser.add_argument('-dd', '--decoder_dropout', type=float, action='store', default=0.0, help='Decoder dropout')
 
 subparsers = parser.add_subparsers(help='Specify if you want to train or predict', dest='which')
 
