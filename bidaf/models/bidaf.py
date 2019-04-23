@@ -2,13 +2,11 @@ from keras.layers import Input, TimeDistributed, LSTM, Bidirectional
 from keras.models import Model, load_model
 from keras.optimizers import Adadelta
 from keras.callbacks import CSVLogger, ModelCheckpoint
-# from keras import backend as K
 from ..layers import Highway, Similarity, C2QAttention, Q2CAttention, MergedContext, SpanBegin, SpanEnd, CombineOutputs
 from ..scripts import negative_avg_log_error, accuracy, tokenize, MagnitudeVectors, get_best_span, \
     get_word_char_loc_mapping
-# from ..scripts import ModelMGPU
+from ..scripts import ModelMGPU
 import os
-from functools import partial
 
 
 class BidirectionalAttentionFlow():
@@ -62,10 +60,10 @@ class BidirectionalAttentionFlow():
 
         model.summary()
 
-        # try:
-        #     model = ModelMGPU(model)
-        # except:
-        #     pass
+        try:
+            model = ModelMGPU(model)
+        except:
+            pass
 
         adadelta = Adadelta(lr=0.01)
         model.compile(loss=negative_avg_log_error, optimizer=adadelta, metrics=[accuracy])

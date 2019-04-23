@@ -5,8 +5,6 @@ Implementation of [Bidirectional Attention Flow for Machine Comprehension](https
 This project is available for use as a complete module. Just install the requirements (will update with only the necessary ones) and then run the module named 'bidaf' using the command:
 `python -m bidaf`
 
-You can append your code in the \_\_main\_\_.py file according to your needs. We are working on updating this as a perfect module which you can use via commandline arguments.
-
 A pretrained model will be made available soon.
 
 **NOTE:** I know that you are waiting for the first release of this project but training such a huge model takes a lot of time. And we don't have a high spec setup of our own. The code is all ready but we are adding features to it and continuously improving it. But the time for wait will be long as we lack resources. That's the reason why big companies like Google, Microsoft provide pre-trained models. Everyone cannot afford/have high spec setups.
@@ -26,7 +24,7 @@ A pretrained model will be made available soon.
 ## To-do list
 - Make this project as a portable module and publish it on pypi
 
-I don't know which things should I keep in mind to do this (such as if a directory doesn't exists at runtime, the model should create it dynamically instead of throwing an error). If you have such points that I should keep in mind, consider contributing to this project. Also, if you have time to implement it in this project, submit your work with a pull request on a new branch.
+I don't know which things should I keep in mind to do this (such as how to create a setup.py file, what are the other files needed/essential for publishing, how these files help, etc.). If you have such points that I should keep in mind, consider contributing to this project. Also, if you have time to implement it in this project, submit your work with a pull request on a new branch.
 
 Thoughts, samples codes, modifications and any other type of contributions are appreciated. This is my first project in Deep Learning and also first being open source. I will need as much help as possible as I don't know the path I need to follow. Thank you..
 
