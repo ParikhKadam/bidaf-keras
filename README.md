@@ -1,6 +1,11 @@
 # bidaf-keras
 Implementation of [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603) in Keras 2
 
+# What is this project abour?
+Machine Comprehension is a task in the field of NLP & NLU where the machine is provided with a passage and a question, and the machine tries to find an answer to the asked question from that given passage, by understanding the syntax and semantics of human language (here, English) and by establishing and understanding the relations betweeen the passage and the question.
+
+We have implemented a model suggested in the paper Bidirectional Attention Flow for Machine Comprehension by a team of allennlp, popularly known as BiDAF.
+
 ## Usage
 This project is available for use as a complete module. You can use this project via command-line arguments or by importing functionalities from it.:
 
@@ -38,6 +43,7 @@ This project is available for use as a complete module. You can use this project
   - **Train:**
     ```
     from bidaf.models import BidirectionalAttentionFlow
+    from bidaf.scripts import load_data_generators
     bidaf_model = BidirectionalAttentionFlow(400)
     bidaf_model.load_bidaf("/path/to/model.h5") # when you want to resume training
     train_generator, validation_generator = load_data_generators(24, 400)
