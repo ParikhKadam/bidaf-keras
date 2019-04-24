@@ -1,7 +1,7 @@
 # bidaf-keras
 Implementation of [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603) in Keras 2
 
-## What is this project abour?
+## What is this project about?
 Machine Comprehension is a task in the field of NLP & NLU where the machine is provided with a passage and a question, and the machine tries to find an answer to the asked question from that given passage, by understanding the syntax and semantics of human language (here, English) and by establishing and understanding the relations betweeen the passage and the question.
 
 We have implemented a model suggested in the paper Bidirectional Attention Flow for Machine Comprehension by a team of allennlp, popularly known as BiDAF.
@@ -79,6 +79,7 @@ This project is available for use as a complete module. You can use this project
 - Ability to run predictions on a list of passages and questions.
 - Sample shuffling can be enabled.
 - Ability to return confidence score as well as character locations in the passage.
+- Variable number of highway layers and decoders.
 
 ## Pre-trained Models
 - **Model Name:** [bidaf_50.h5](https://drive.google.com/open?id=10C56f1DSkWbkBBhokJ9szXM44P9T-KfW)
@@ -101,12 +102,20 @@ This project is available for use as a complete module. You can use this project
     - embedding dimension: 400
     - squad version: 1.1
 
+## Project flow
+- First of all, the project will download the data required for training the model. This consists of two categories: Magnitude and SQuAD.
+- SQuAD files are dataset files on which the model can be trained. Based on it's version specified, it will download the required files and preprocess them. The SQuAD data will be stored in **data/squad**. For more information on the SQuAD dataset, [visit this site](https://rajpurkar.github.io/SQuAD-explorer/).
+- Magnitude files are a form of compressed and encoded files that we use for word embeddings at word-level and character-level. The project will download the required files based on the mebedding dimension specified by the user, in the **data/magnitude** directory. For more information on Magnitude, [visit this site](https://github.com/plasticityai/magnitude/)
+- Now, users can train the model. The users have various options available while training to save models after every epoch and save the history of training as well. All these items will be saved in a directory called **saved_items**.
+- To run predictions on any trained model, make sure that the model lies in the directory **saved_items** and then pass the name of the model to loading script. After loading the model, call the predict function.
+- To resume training or to use pretrained models provided above, just place the model inside **saved_items** directory and pass it's name to the project.
+
 ## Improvements in future releases
 - Provide two modes for preprocessing: Strict and Moderate.
 - Measure accuracy of model with Moderate mode.
-- Support for use via command line
 - GUI support
 - Database support
+- Your suggestions...?
 
 ## To-do list
 - Make this project as a portable module and publish it on pypi
@@ -114,7 +123,6 @@ This project is available for use as a complete module. You can use this project
 I don't know which things should I keep in mind to do this (such as how to create a setup.py file, what are the other files needed/essential for publishing, how these files help, etc.). If you have such points that I should keep in mind, consider contributing to this project. Also, if you have time to implement it in this project, submit your work with a pull request on a new branch.
 
 Thoughts, samples codes, modifications and any other type of contributions are appreciated. This is my first project in Deep Learning and also first being open source. I will need as much help as possible as I don't know the path I need to follow. Thank you..
-
 
 ## Warnings
 - There's a dependency flaw in our project. The package we used to generate word embeddings, pymagnitude, hasn't yet added suport for fixed length inputs - https://github.com/plasticityai/magnitude/issues/50. Hence, trying to use this model with fixed length input will throw an error. We have looked into their source code and found the problem. We have forked that repo, fixed the issue and then generated a pull request but it seems like the author is no more maintaining that project. So, we have to wait. Till then, you may use the patched version of that package to make this functionality work. You can find it here - https://github.com/ParikhKadam/magnitude/tree/patch-1
