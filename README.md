@@ -1,10 +1,19 @@
 # bidaf-keras
 Implementation of [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603) in Keras 2
 
-# What is this project abour?
+## What is this project abour?
 Machine Comprehension is a task in the field of NLP & NLU where the machine is provided with a passage and a question, and the machine tries to find an answer to the asked question from that given passage, by understanding the syntax and semantics of human language (here, English) and by establishing and understanding the relations betweeen the passage and the question.
 
 We have implemented a model suggested in the paper Bidirectional Attention Flow for Machine Comprehension by a team of allennlp, popularly known as BiDAF.
+
+## What you can do with this project
+- Train/Retrain this model with your own dataset.
+- Use the pretrained model for extending your own model or to try this one out.
+- Modify the code of this model to develop a new model architecture out of it.
+
+## Prerequisites
+- Python 3.6
+- CUDA and cuDNN support for Tensorflow GPU (not mandatory, but it's better to have it)
 
 ## Usage
 This project is available for use as a complete module. You can use this project via command-line arguments or by importing functionalities from it.:
@@ -60,6 +69,17 @@ This project is available for use as a complete module. You can use this project
     
   **Also note** that, in the above snippets, `bidaf_model` is just an object of class `BidirectionalAttentionFlow` and not the real Keras model. You can access the Keras model by using `keras_model = bidaf_model.model`.
 
+## Features
+- Supports both SQUAD-v1.1 and SQUAD-v2.0.
+- Can predict answers from any length of passage and question but your memory should support it's size.
+- Has multi-GPU support.
+- Supports various embedding dimensions.
+- Support for flexible answer span length.
+- Support for fixed length passage and question.
+- Ability to run predictions on a list of passages and questions.
+- Sample shuffling can be enabled.
+- Ability to return confidence score as well as character locations in the passage.
+
 ## Pre-trained Models
 - **Model Name:** [bidaf_50.h5](https://drive.google.com/open?id=10C56f1DSkWbkBBhokJ9szXM44P9T-KfW)
   
@@ -81,17 +101,12 @@ This project is available for use as a complete module. You can use this project
     - embedding dimension: 400
     - squad version: 1.1
 
-## Features/Improvements in future releases
+## Improvements in future releases
 - Provide two modes for preprocessing: Strict and Moderate.
 - Measure accuracy of model with Moderate mode.
 - Support for use via command line
 - GUI support
 - Database support
-
-## What you can do with this project
-- Train/Retrain this model with your own dataset.
-- Use the pretrained model for extending your own model or to try this one out.
-- Modify the code of this model to develop a new model architecture out of it.
 
 ## To-do list
 - Make this project as a portable module and publish it on pypi
