@@ -1,9 +1,58 @@
 # bidaf-keras
 Implementation of [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603) in Keras 2
 
-## Release-info
-This project is available for use as a complete module. Just install the requirements (will update with only the necessary ones) and then run the module named 'bidaf' using the command:
-`python -m bidaf`
+## Usage
+This project is available for use as a complete module. You can use this project via command-line arguments or by importing functionalities from it.:
+
+- **Usage via command-line arguments:**
+  
+  To see the usage info, run `python3 -m bidaf --help`.
+
+  Using this module via command-line arguments will provide you with limited functionalities. To get the real power, we recommend using it by importing its functionalities.
+  
+  The CLI mode will provide you with two basic functionalities: train and predict.
+  
+  - **Train:** To get usage information for training models, run `python3 -m bidaf train --help`
+    
+    For example:
+    
+    ```
+    python3 -m bidaf --model_name=bidaf_50.h5 --do_lowercase train --epochs=1 --steps_per_epoch=1 --validation_steps=1
+    ```
+  
+  - **Predict:** To get usage information for running predictions on a model, run `python3 -m bidaf predict --help`
+    
+    For example:
+     ```
+     python3 -m bidaf --model_name=bidaf_50.h5 --do_lowercase predict --passage "This is tree." --question "What is this?" --return_char_loc --return_confidence_score
+     ```
+   
+  **Note** that, some parameters like "--do_lowercase" are dependent on some other parameters like "--model_name". For example, if the model is trained to perform predictions on lowercase inputs, it might not work well if the inputs are not in lowercase.
+  
+  If you still have any queries on the need/use of any CLI argument, open an issue and we will reach you as soon as possible.
+  
+- **Usage by importing functionalities:**
+  
+  You can use the module by importing it in many different ways. So, we will just mention two example code snippets from which you will gain most of the knowledge required.
+  
+  - **Train:**
+    ```
+    from bidaf.models import BidirectionalAttentionFlow
+    bidaf_model = BidirectionalAttentionFlow(400)
+    bidaf_model.load_bidaf("/path/to/model.h5") # when you want to resume training
+    train_generator, validation_generator = load_data_generators(24, 400)
+    keras_model = bidaf_model.train_model(train_generator, validation_generator=validation_generator)
+    ```
+  - **Predict:**
+    ```
+    from bidaf.models import BidirectionalAttentionFlow
+    bidaf_model = BidirectionalAttentionFlow(400)
+    bidaf_model.load_bidaf("/path/to/model.h5")
+    bidaf_model.predict_ans("This is a tree", "What is this?")
+    ```
+  **Note** that the above are the simplest code snippets. You can explore all functionalities available by looking at the parameters avaiable at different level. If you can't understand the parameters, just open an issue here. We may write the usage of all parameters in future if required.
+    
+  **Also note** that, in the above snippets, `bidaf_model` is just an object of class `BidirectionalAttentionFlow` and not the real Keras model. You can access the Keras model by using `keras_model = bidaf_model.model`.
 
 A pretrained model will be made available soon.
 
