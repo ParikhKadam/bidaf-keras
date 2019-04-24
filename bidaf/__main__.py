@@ -52,8 +52,8 @@ required_train.add_argument('--epochs', type=int, action='store', required=True,
 
 # create the parser for the "predict" command
 parser_predict = subparsers.add_parser('predict', help='Run predictions on BiDAF')
-parser_predict.add_argument('-mal', '--max_ans_length', action='store_true',
-                            default=False, help='Maximum answer length')
+parser_predict.add_argument('-mal', '--max_ans_length', action='store',
+                            default=25, help='Maximum answer length')
 parser_predict.add_argument('-rcl', '--return_char_loc', action='store_true', default=False,
                             help='Return answer start and end character locations')
 parser_predict.add_argument('-rcs', '--return_confidence_score', action='store_true',
