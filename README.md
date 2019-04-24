@@ -54,9 +54,26 @@ This project is available for use as a complete module. You can use this project
     
   **Also note** that, in the above snippets, `bidaf_model` is just an object of class `BidirectionalAttentionFlow` and not the real Keras model. You can access the Keras model by using `keras_model = bidaf_model.model`.
 
-A pretrained model will be made available soon.
+## Pre-trained Models
+- **Model Name:** [bidaf_50.h5](https://drive.google.com/open?id=10C56f1DSkWbkBBhokJ9szXM44P9T-KfW)
+  
+  **Model Configuration:**
+    - lowercase: True
+    - batch size: 16
+    - max passage length: None
+    - max question length: None
+    - embedding dimension: 400
+    - squad version: 1.1
 
-**NOTE:** I know that you are waiting for the first release of this project but training such a huge model takes a lot of time. And we don't have a high spec setup of our own. The code is all ready but we are adding features to it and continuously improving it. But the time for wait will be long as we lack resources. That's the reason why big companies like Google, Microsoft provide pre-trained models. Everyone cannot afford/have high spec setups.
+- **Model Name:** [bidaf_10.h5](https://link.to.model.will.be.updated.soon)
+  
+  **Model Configuration:**
+    - lowercase: True
+    - batch size: 16
+    - max passage length: None
+    - max question length: None
+    - embedding dimension: 400
+    - squad version: 1.1
 
 ## Features/Improvements in future releases
 - Provide two modes for preprocessing: Strict and Moderate.
@@ -65,7 +82,7 @@ A pretrained model will be made available soon.
 - GUI support
 - Database support
 
-## What you can do with this project:
+## What you can do with this project
 - Train/Retrain this model with your own dataset.
 - Use the pretrained model for extending your own model or to try this one out.
 - Modify the code of this model to develop a new model architecture out of it.
