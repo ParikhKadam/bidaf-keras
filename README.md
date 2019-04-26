@@ -16,7 +16,17 @@ We have implemented a model suggested in the paper Bidirectional Attention Flow 
 - CUDA and cuDNN support for Tensorflow GPU (not mandatory, but it's better to have it)
 
 ## Installation
-Run the code `pip install bidaf-keras`
+Execute this command `pip install bidaf-keras`
+
+Note that the above code won't install tensorflow as there is no way to detecting if your system has GPU while installing this package. But you can explicitly mention if you want to install tensorflow (CPU/GPU) while installing this package.
+
+- Installing Tensorflow CPU along with this package:
+  
+  Execute this command `pip install bidaf-keras[cpu]`
+
+- Installing Tensorflow GPU along with this package:
+  
+  Execute this command `pip install bidaf-keras[gpu]`
 
 ## Usage
 This project is available for use as a complete module. You can use this project via command-line arguments or by importing functionalities from it.:
