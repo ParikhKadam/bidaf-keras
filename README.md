@@ -33,7 +33,7 @@ This project is available for use as a complete module. You can use this project
 
 - **Usage via command-line arguments:**
   
-  To see the usage info, run `python3 -m bidaf --help`.
+  To see the usage info, run `python3 -m bidaf --help` or `bidaf-keras --help`.
 
   Using this module via command-line arguments will provide you with limited functionalities. To get the real power, we recommend using it by importing its functionalities.
   
