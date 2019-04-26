@@ -3,7 +3,6 @@ from .scripts import load_data_generators
 from .scripts import data_download_and_preprocess, negative_avg_log_error, accuracy
 import os
 
-
 # =======================================================================================================================
 
 
@@ -21,9 +20,9 @@ parser.add_argument('-l', '--do_lowercase', action='store_true', default=False, 
 parser.add_argument('--model_name', type=str, action='store', default=None,
                     help='Model to load for predictions/resume training')
 parser.add_argument('-e', '--emdim', choices=[350, 400, 500, 600],
-                          action='store', default=400, help='Embedding (GLoVE + Fasttext) vectors dimension')
+                    action='store', default=400, help='Embedding (GLoVE + Fasttext) vectors dimension')
 parser.add_argument('-nhl', '--num_highway_layers', type=int, action='store',
-                          default=1, help='Number of Highway layers')
+                    default=1, help='Number of Highway layers')
 parser.add_argument('-nd', '--num_decoders', type=int, action='store', default=1, help='Number of decoders')
 parser.add_argument('-ed', '--encoder_dropout', type=float, action='store', default=0.0, help='Encoder dropout')
 parser.add_argument('-dd', '--decoder_dropout', type=float, action='store', default=0.0, help='Decoder dropout')
@@ -67,7 +66,7 @@ required_predict.add_argument('-q', '--question', type=str, action='store', requ
 # ========================================================================================================================
 
 
-if __name__ == '__main__':
+def main():
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
         sys.exit()
@@ -75,7 +74,8 @@ if __name__ == '__main__':
 
     data_download_and_preprocess(squad_version=args.squad_version, do_lowercase=args.do_lowercase)
 
-    bidaf_model = BidirectionalAttentionFlow(emdim=args.emdim, max_passage_length=args.max_passage_length, max_query_length=args.max_query_length,
+    bidaf_model = BidirectionalAttentionFlow(emdim=args.emdim, max_passage_length=args.max_passage_length,
+                                             max_query_length=args.max_query_length,
                                              num_highway_layers=args.num_highway_layers, num_decoders=args.num_decoders,
                                              encoder_dropout=args.encoder_dropout, decoder_dropout=args.decoder_dropout)
 
@@ -85,12 +85,17 @@ if __name__ == '__main__':
             bidaf_model.load_bidaf(os.path.join(os.path.dirname(__file__), 'saved_items', args.model_name))
             bidaf_model.model.compile(loss=negative_avg_log_error, optimizer='adadelta', metrics=[accuracy])
 
-        train_generator, validation_generator = load_data_generators(batch_size=args.batch_size, emdim=args.emdim, squad_version=args.squad_version,
-                                                                     max_passage_length=args.max_passage_length, max_query_length=args.max_query_length,
+        train_generator, validation_generator = load_data_generators(batch_size=args.batch_size, emdim=args.emdim,
+                                                                     squad_version=args.squad_version,
+                                                                     max_passage_length=args.max_passage_length,
+                                                                     max_query_length=args.max_query_length,
                                                                      shuffle=args.shuffle_samples)
 
-        bidaf_model.train_model(train_generator, steps_per_epoch=args.steps_per_epochs, epochs=args.epochs, validation_generator=validation_generator, validation_steps=args.validation_steps,
-                                workers=args.workers, use_multiprocessing=args.use_multiprocessing, shuffle=args.shuffle_batch, save_history=args.save_history, save_model_per_epoch=args.save_model_per_epoch)
+        bidaf_model.train_model(train_generator, steps_per_epoch=args.steps_per_epochs, epochs=args.epochs,
+                                validation_generator=validation_generator, validation_steps=args.validation_steps,
+                                workers=args.workers, use_multiprocessing=args.use_multiprocessing,
+                                shuffle=args.shuffle_batch, save_history=args.save_history,
+                                save_model_per_epoch=args.save_model_per_epoch)
 
         print("Training Completed!")
 
@@ -105,7 +110,13 @@ if __name__ == '__main__':
 
         bidaf_model.load_bidaf(os.path.join(os.path.dirname(__file__), 'saved_items', args.model_name))
 
-        answer = bidaf_model.predict_ans(args.passage, args.question, squad_version=args.squad_version, max_span_length=args.max_ans_length,
-                                         do_lowercase=args.do_lowercase, return_char_loc=args.return_char_loc, return_confidence_score=args.return_confidence_score)
+        answer = bidaf_model.predict_ans(args.passage, args.question, squad_version=args.squad_version,
+                                         max_span_length=args.max_ans_length,
+                                         do_lowercase=args.do_lowercase, return_char_loc=args.return_char_loc,
+                                         return_confidence_score=args.return_confidence_score)
 
         print("Predicted answer:", answer)
+
+
+if __name__ == '__main__':
+    main()
