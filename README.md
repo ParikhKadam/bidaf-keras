@@ -15,6 +15,9 @@ We have implemented a model suggested in the paper Bidirectional Attention Flow 
 - Python 3.6
 - CUDA and cuDNN support for Tensorflow GPU (not mandatory, but it's better to have it)
 
+## Installation
+Run the code `pip install bidaf-keras`
+
 ## Usage
 This project is available for use as a complete module. You can use this project via command-line arguments or by importing functionalities from it.:
 
