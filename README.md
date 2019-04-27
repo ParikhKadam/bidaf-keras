@@ -6,6 +6,10 @@ Machine Comprehension is a task in the field of NLP & NLU where the machine is p
 
 We have implemented a model suggested in the paper Bidirectional Attention Flow for Machine Comprehension by a team of allennlp, popularly known as BiDAF.
 
+Checkout this video to understand more:
+
+[![ Visualizing machine comprehension task with BiDAF](http://img.youtube.com/vi/ozifbOqihh8/0.jpg)](http://www.youtube.com/watch?v=ozifbOqihh8 " Visualizing machine comprehension task with BiDAF")
+
 ## What you can do with this project
 - Train/Retrain this model with your own dataset.
 - Use the pretrained model for extending your own model or to try this one out.
