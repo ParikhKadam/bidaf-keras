@@ -136,6 +136,7 @@ This project is available for use as a complete module. You can use this project
 - To resume training or to use pretrained models provided above, just place the model inside **saved_items** directory and pass it's name to the project.
 
 ## Improvements in future releases
+- Support for Multiple (almost all) Languages
 - Download pre-trained models automatically
 - Support to specify model path instead of model name
 - Provide two modes for preprocessing: Strict and Moderate.
