@@ -162,6 +162,20 @@ This project is available for use as a complete module. You can use this project
 ## Contributions
 Thoughts, samples codes, modifications and any other type of contributions are appreciated. This is my first project in Deep Learning and also first being open source. I will need as much help as possible as I don't know the path I need to follow. Thank you..
 
+## Donations
+We want to continue maintaing this project with lots of new features. When we started this project, our end-to-end task was to provide exact answers to users' questions by searching contextual information automatically from the Internet. And we are surely moving towards achieving this task. But we are facing a big problem now. The GPU we used earlier was provided by our college and today is the day of our graduation. Happy to graduate but sad to know that we won't have a GPU to train this model on.. A big question is how will we continue? We haven't earned a single income to go buy a new one.. That's the reason we are taking donations.
+
+Please help us if you can.. If you can't but you know someone who can, share this with them. We will be maintaining a list of people who donated and thus helped us. While donating, you can provide a link to your any profile (GitHub, Facebook, LinkedIn, etc..) and we will also add those links to the list we are maintaining here. Maybe it works for you as a kind of marketing.. We should also try helping as much as we can to the people who help us -- this is the reason we will be maintaining the list open on GitHub.
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick" />
+<input type="hidden" name="hosted_button_id" value="U83FVKU8MGK6J" />
+<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_IN/i/scr/pixel.gif" width="1" height="1" />
+</form>
+
+Thank you..
+
 ## My team
 - [Dharanee Patel](https://github.com/dharaneepatel15/)
 - [Zeel Patel](https://github.com/zeelp898/)
