@@ -8,7 +8,7 @@ We have implemented a model suggested in the paper Bidirectional Attention Flow 
 
 Checkout this video to understand more:
 
-[![ Visualizing machine comprehension task with BiDAF](http://img.youtube.com/vi/ozifbOqihh8/0.jpg)](http://www.youtube.com/watch?v=ozifbOqihh8 " Visualizing machine comprehension task with BiDAF")
+[![Visualizing machine comprehension task with BiDAF](http://img.youtube.com/vi/ozifbOqihh8/0.jpg)](http://www.youtube.com/watch?v=ozifbOqihh8)
 
 ## What you can do with this project
 - Train/Retrain this model with your own dataset.
@@ -167,7 +167,7 @@ We want to continue maintaing this project with lots of new features. When we st
 
 Please help us if you can.. If you can't but you know someone who can, share this with them. We will be maintaining a list of people who donated and thus helped us. While donating, you can provide a link to your any profile (GitHub, Facebook, LinkedIn, etc..) and we will also add those links to the list we are maintaining here. Maybe it works for you as a kind of marketing.. We should also try helping as much as we can to the people who help us -- this is the reason we will be maintaining the list open on GitHub.
 
-[![paypal](https://www.paypal.com/en_IN/i/scr/pixel.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=U83FVKU8MGK6J)
+[![paypal](https://www.paypalobjects.com/en_GB/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=U83FVKU8MGK6J)
 
 Thank you..
 
