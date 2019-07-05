@@ -96,6 +96,7 @@ This project is available for use as a complete module. You can use this project
 
 ## Features
 - Supports both SQUAD-v1.1 and SQUAD-v2.0.
+- Supports Out-Of-Vocabulary words.
 - Can predict answers from any length of passage and question but your memory should support it's size.
 - Has multi-GPU support.
 - Supports various embedding dimensions.
