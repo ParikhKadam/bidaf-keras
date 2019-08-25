@@ -12,7 +12,7 @@ lz4==2.1.6
 Markdown==3.1
 mock==2.0.0
 monotonic==1.5
-nltk==3.4.1
+nltk==3.4.5
 numpy==1.16.3
 pbr==5.1.3
 protobuf==3.7.1
