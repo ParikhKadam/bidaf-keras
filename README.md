@@ -1,4 +1,4 @@
-# bidaf-keras
+# BiDAF-Keras
 Implementation of [Bidirectional Attention Flow for Machine Comprehension](https://arxiv.org/abs/1611.01603) in Keras 2
 
 ## What is this project about?
@@ -75,17 +75,19 @@ This project is available for use as a complete module. You can use this project
   You can use the module by importing it in many different ways. So, we will just mention two example code snippets from which you will gain most of the knowledge required.
   
   - **Train:**
-    ```
+    ```python
     from bidaf.models import BidirectionalAttentionFlow
     from bidaf.scripts import load_data_generators
+    
     bidaf_model = BidirectionalAttentionFlow(400)
     bidaf_model.load_bidaf("/path/to/model.h5") # when you want to resume training
     train_generator, validation_generator = load_data_generators(24, 400)
     keras_model = bidaf_model.train_model(train_generator, validation_generator=validation_generator)
     ```
   - **Predict:**
-    ```
+    ```python
     from bidaf.models import BidirectionalAttentionFlow
+    
     bidaf_model = BidirectionalAttentionFlow(400)
     bidaf_model.load_bidaf("/path/to/model.h5")
     bidaf_model.predict_ans("This is a tree", "What is this?")
